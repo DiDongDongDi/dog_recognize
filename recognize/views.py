@@ -1,0 +1,50 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+import os
+import json
+
+from dog_recognize.settings import BASE_DIR
+from . import recognize
+
+samples_dir = os.path.join(BASE_DIR, 'resources/samples/')
+classes = sorted(os.listdir(samples_dir))
+upload_img_dir = os.path.join(BASE_DIR, 'resources/upload_img/')
+
+def main(request):
+    return render(request, 'recognize/main.html')
+
+def about(request):
+    context = {'classes': classes}
+    return render(request, 'recognize/about.html', context)
+
+def upload_img(request):
+    if request.method == "POST":
+        img = request.FILES.get('input-1[]')
+        if img is None:
+            return HttpResponse(json.dumps({'error': '请先选择图片!'}), content_type="application/json")
+        img_token = request.POST.get('img_token')
+        img_ext_name = img.name
+        img_dst = upload_img_dir + img_token + img_ext_name
+        with open(img_dst, 'wb') as f:
+            for chunk in img.chunks():
+                f.write(chunk)
+        return HttpResponse(json.dumps({}), content_type="application/json")
+    return HttpResponse(json.dumps({'error': 'Unknow error!'}), content_type="application/json")
+
+def get_res(request):
+    if request.method == "GET":
+        img_token = request.GET.get('img_token')
+        img_ext_name = request.GET.get('img_ext_name')
+        img_dst = upload_img_dir + img_token + img_ext_name
+
+        pred_classes, pred_percents = recognize.recognize(img_dst)
+
+        pred_classes_name = []
+        for i in range(len(pred_classes)):
+            pred_classes_name.append(classes[pred_classes[i]])
+
+        pred_res = zip(pred_classes_name, pred_percents)
+        your_img = img_token + img_ext_name
+        context = {'pred_res': pred_res, 'your_img': your_img}
+
+    return render(request, "recognize/result.html", context)

@@ -1,0 +1,28 @@
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "base.html" %}
+
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+关于
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+
+<!-- 定义放置文章标题的div容器 -->
+<div class="container">
+	<div class="jumbotron">
+		<p>该模型在测试集上的准确率为<b>91.63%</b>, 可识别<b>133</b>个犬的品种, 如下表所示:</p>
+		<table>
+			<tbody>
+				{% for class in classes %}
+				<tr>
+					<th>{{ class }}</th>
+				</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+{% endblock content %}

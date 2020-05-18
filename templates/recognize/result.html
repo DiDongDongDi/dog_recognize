@@ -1,0 +1,20 @@
+<div id="result" class="jumbotron">
+
+	<p><b>你的图片:</b></p>
+	<img src="" class="img-thumbnail img-responsive" id="your_img">
+	<script>
+		$("#your_img").attr('src', 'upload_img/{{ your_img }}?t=' + (+new Date()));
+	</script>
+	<br><br><br>
+	<p><b>预测结果(前三):</b></p>
+
+	{% for pred_class_name, pred_percent in pred_res %}
+	<p><b>序号: </b>{{ forloop.counter }}</p>
+	<p><b>类别: </b>{{ pred_class_name }}</p>
+	<p><b>概率: </b>{{ pred_percent }} %</p>
+	<p><b>例图: </b></p>
+	<img src="samples/{{ pred_class_name }}/0.jpg" class="img-thumbnail img-responsive">
+	<br><br><br>
+	{% endfor %}
+
+</div>
