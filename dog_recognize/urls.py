@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+SITE_ROOT_URL = 'works/dog_recognize/'
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('recognize/', include('recognize.urls', namespace='recognize')),
+    path(SITE_ROOT_URL+'admin/', admin.site.urls),
+    path(SITE_ROOT_URL+'recognize/', include('recognize.urls', namespace='recognize')),
 ]

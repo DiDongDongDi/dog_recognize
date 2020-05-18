@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!0!k(bmjy(l_wx2$o@1!b!#ldnkib9mo870ai*i%ectu34zc16'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['.wangqy.top', '127.0.0.1']
 
@@ -123,12 +123,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-RESOURCES_ROOT = os.path.join(BASE_DIR, 'resources/')
+MAIN_MEDIA_ROOT = os.path.join(BASE_DIR, 'static/main_media_root/')
 
 # 定时任务设置
-LOG_DIR = os.path.join(BASE_DIR, 'log/')
+LOGS_DIR = os.path.join(BASE_DIR, 'logs/')
 CRONJOBS = [
-    ('0 0 * * *', 'recognize.task.clear_upload_imgs', '>> '+LOG_DIR+'task.log')
+    ('0 0 * * *', 'recognize.task.clear_upload_imgs', '>> '+LOGS_DIR+'task.log')
 ]
 
 # 静态文件收集目录

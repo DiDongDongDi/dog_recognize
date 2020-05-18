@@ -39,7 +39,7 @@ var is_uploaded = false;
 var img_ext_name;
 $("#input-1").fileinput({
 	allowedFileExtensions: ["jpg", "png", "bmp", "jpeg"],
-	uploadUrl: '/recognize/upload_img/',
+	uploadUrl: '{{ upload_img_url }}',
 	theme: 'fas',
 	uploadExtraData: {
 		'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -66,7 +66,7 @@ $('#input-1').on('fileloaded', function(event, file, previewId, index, reader) {
 					if(is_uploaded){
 						$(this).button('loading').delay(1000).queue(function(){});
 						$.get(
-							'/recognize/get_res/',
+							'{{ get_res_url }}',
 							{'img_token': img_token, 'img_ext_name': img_ext_name},
 							function(data, status){
 								$("#result").html(data);

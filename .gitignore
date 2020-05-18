@@ -133,3 +133,6 @@ dmypy.json
 
 # resources
 resources/
+
+# media
+static/main_media_root/

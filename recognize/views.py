@@ -3,15 +3,20 @@ from django.http import HttpResponse
 import os
 import json
 
-from dog_recognize.settings import BASE_DIR
+from dog_recognize.settings import MAIN_MEDIA_ROOT
 from . import recognize
+from dog_recognize.urls import SITE_ROOT_URL
 
-samples_dir = os.path.join(BASE_DIR, 'resources/samples/')
+samples_dir = os.path.join(MAIN_MEDIA_ROOT, 'media/samples/')
 classes = sorted(os.listdir(samples_dir))
-upload_img_dir = os.path.join(BASE_DIR, 'resources/upload_img/')
+upload_img_dir = os.path.join(MAIN_MEDIA_ROOT, 'media/upload_img/')
+
+upload_img_url = '/' + SITE_ROOT_URL + 'recognize/upload_img/'
+get_res_url = '/' + SITE_ROOT_URL + 'recognize/get_res/'
 
 def main(request):
-    return render(request, 'recognize/main.html')
+    context = {'upload_img_url': upload_img_url, 'get_res_url': get_res_url}
+    return render(request, 'recognize/main.html', context)
 
 def about(request):
     context = {'classes': classes}
